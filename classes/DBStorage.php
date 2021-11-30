@@ -20,13 +20,27 @@ class DBStorage
      */
     public function getAllRocketsFromCountry(int $id): array
     {
-        $st = $this->con->prepare("SELECT * FROM rockets WHERE rockets.manufacturer_id IN (SELECT manufacturers.id from manufacturers WHERE manufacturers.country_id = $id) ORDER BY human_rated DESC, name");
-        $st->execute();
-        /** @var Rockets[] $rockets **/
+        $st = $this->con->prepare("SELECT * FROM rockets WHERE rockets.manufacturer_id IN (SELECT manufacturers.id from manufacturers WHERE manufacturers.country_id = ?) ORDER BY human_rated DESC, name");
+        $st->execute([intval($id)]);
+        /** @var Rocket[] $rockets **/
         return $st->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Rocket::class);
     }
 
-    public function getAllManufacturersById(int $id) {
+    public function getAllAgencyNames(): array
+    {
+        $st = $this->con->prepare("SELECT agency_name FROM countries");
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getAllRocketPrefixesNames(): array
+    {
+        $st = $this->con->prepare("SELECT prefix_rockets FROM countries");
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getManufacturerById(int $id) {
         $st = $this->con->prepare("SELECT * FROM manufacturers WHERE id = ?");
         $st->execute([intval($id)]);
         return $st->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Manufacturer::class);
@@ -60,5 +74,15 @@ class DBStorage
     {
         $this->con->prepare("UPDATE rockets SET manufacturer_id = ?, name = ?, human_rated = ?, payload = ?, height = ? WHERE id = ?")
             ->execute([intval($rocket->getManufacturerId()), $rocket->getName(), intval($rocket->isHumanRated()), floatval($rocket->getPayload()), floatval($rocket->getHeight()), intval($id)]);
+    }
+
+    public function getNumberOfCountries()
+    {
+        $sql = "SELECT * FROM countries";
+        if ($stmt = $this->con->prepare($sql)) {
+            $stmt->execute();
+            return $stmt->rowCount();
+        }
+        return 0;
     }
 }

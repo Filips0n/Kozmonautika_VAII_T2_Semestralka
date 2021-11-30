@@ -1,7 +1,5 @@
 <?php
 require "../classes/App.php";
-$nazvyKrajinRakety = array("Americké", "Ruské", "Európske", "Čínske", "Japonské", "Indické");
-$idKrajin = array("AR", "RR", "ER", "CR", "JR", "IR");
 $app = new App();
 ?>
 <!DOCTYPE html>
@@ -53,13 +51,13 @@ $app = new App();
 <div class="container">
     <div class="row">
         <div class="col-lg-11">
-            <?php for ($i = 1; $i <= 7; ++$i) { ?>
+            <?php for ($i = 1; $i <= intval($app->getNumberOfCountries()); ++$i) { ?>
                 <?php if ($app->getAllRocketsFromCountry($i) == null) {
                     continue;
                 } ?>
                 <section class="rocket-section">
-                    <a class="anchor" id="<?= $idKrajin[$i - 1] ?>"></a>
-                    <h1><?= $nazvyKrajinRakety[$i - 1] ?> rakety</h1>
+                    <a class="anchor" id="<?= $app->getAllAgencyNames()[$i-1] ?>"></a>
+                    <h1><?= $app->getAllRocketPrefixesNames()[$i-1] ?> rakety</h1>
                     <?php if (count($app->getAllRocketsFromCountry($i)) < 4) { ?>
                         <div class="row row-cols-1 row-cols-md-3 g-4">
                     <?php } elseif (count($app->getAllRocketsFromCountry($i)) < 13) { ?>
@@ -79,7 +77,7 @@ $app = new App();
                                         <i class="bi bi-people" title="Ľudská posádka"></i>
                                         <?php } ?></h5>
                                     <p class="card-text">
-                                        <?php foreach ($app->getAllManufacturersById($rocket->getManufacturerId()) as $manufacturer) { ?>
+                                        <?php foreach ($app->getManufacturerById($rocket->getManufacturerId()) as $manufacturer) { ?>
                                             Výrobca: <?= $manufacturer->getName() ?><br>
                                         <?php break;} ?>
                                             Nosnosť LEO: <?= $rocket->getPayload() ?>t<br>
@@ -207,10 +205,10 @@ $app = new App();
                                                     <div class="input-group-prepend">
                                                         <label class="input-group-text" for="manufacturer_id">Výrobca:</label>
                                                     </div>
-                                                    <select class="custom-select"name="rocket-edit-manufacturer" id="rocket-edit-manufacturer">
+                                                    <select class="custom-select" name="rocket-edit-manufacturer" id="rocket-edit-manufacturer">
                                                         <?php foreach ($app->getAllManufacturers() as $manufacturer) { ?>
                                                             <option value="<?= $manufacturer->getId()?>"><?= $manufacturer->getName()?></option>
-                                                            <?php } ?>
+                                                        <?php } ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -235,24 +233,14 @@ $app = new App();
         <div class="col-lg-1 d-none d-lg-block">
             <nav id="side-vertical-nav">
                 <ul class="nav nav-stacked flex-sm-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#AR">Americké rakety</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#RR">Ruské rakety</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#ER">Európske rakety</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#CR">Čínske rakety</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#JR">Japonské rakety</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#IR">Indické rakety</a>
-                    </li>
+                    <?php for ($i = 1; $i <= intval($app->getNumberOfCountries()); ++$i) { ?>
+                        <?php if ($app->getAllRocketsFromCountry($i) == null) {
+                            continue;
+                        } ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#<?= $app->getAllAgencyNames()[$i-1] ?>"><?= $app->getAllRocketPrefixesNames()[$i-1] ?> rakety</a>
+                        </li>
+                    <?php }?>
                 </ul>
             </nav>
         </div>

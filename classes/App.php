@@ -107,9 +107,9 @@ class App
         return $this->storage->getAllRocketsFromCountry($id);
     }
 
-    public function getAllManufacturersById(int $id): array
+    public function getManufacturerById(int $id): array
     {
-        return $this->storage->getAllManufacturersById($id);
+        return $this->storage->getManufacturerById($id);
     }
 
     public function getAllManufacturersFromCountry(int $country_id): array
@@ -120,6 +120,21 @@ class App
     public function getAllManufacturers(): array
     {
         return $this->storage->getAllManufacturers();
+    }
+
+    public function getNumberOfCountries()
+    {
+        return $this->storage->getNumberOfCountries();
+    }
+
+    public function getAllAgencyNames()
+    {
+        return $this->storage->getAllAgencyNames();
+    }
+
+    public function getAllRocketPrefixesNames()
+    {
+        return $this->storage->getAllRocketPrefixesNames();
     }
 
     private function saveImage()
