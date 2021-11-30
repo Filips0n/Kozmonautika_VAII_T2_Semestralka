@@ -21,7 +21,6 @@ class App
                 $height = $this->test_input($_POST["height"]);
 
                 $newRocket = new Rocket(0, $manufacturer_id, $this->imageName, $name, $human_rated, $payload, $height);
-                //$newRocket = new Rocket(manufacturer_id: $_POST['manufacturer_id'], image: $this->imageName, name: $_POST['name'], human_rated: $_POST['human_rated'], payload: $_POST['payload'], height: $_POST['height']);
                 $this->storage->addRocket($newRocket);
             }
         }

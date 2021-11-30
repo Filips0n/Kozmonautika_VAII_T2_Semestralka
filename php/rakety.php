@@ -123,7 +123,6 @@ $app = new App();
                                 <div class="modal-body text-dark">
                                     <div class="input-group">
                                         <form method="post" enctype="multipart/form-data">
-<!--                                            <input class="mb-1" type="file" name="file" required>-->
                                             <div class="custom-file">
                                                 <input name="file" type="file" class="form-control mb-1" id="customFile" accept=".jpg,.png,.jpeg,.bmp" maxlength="255" required/>
                                             </div>
