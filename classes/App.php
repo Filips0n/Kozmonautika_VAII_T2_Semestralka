@@ -51,7 +51,7 @@ class App
     private function validateFormAdd(): bool
     {
         $name = $_POST ["name"];
-        if (empty($_POST["name"]) || !preg_match ("/^\w+( \w+)*$/", $name) || strlen ($name) > 20) {
+        if (empty($_POST["name"]) || !preg_match ("/^[A-Za-z0-9-_ ]+$/", $name) || strlen($name) > 20) {
             return false;
         }
 
@@ -72,7 +72,7 @@ class App
     private function validateFormEdit(): bool
     {
         $name = $_POST ["rocket-edit-name"];
-        if (empty($_POST["rocket-edit-name"]) || !preg_match ("/^\w+( \w+)*$/", $name) || strlen($name) > 20) {
+        if (empty($_POST["rocket-edit-name"]) || !preg_match ("/^[A-Za-z0-9-_ ]+$/", $name) || strlen($name) > 20) {
             return false;
         }
 

@@ -128,7 +128,9 @@ $app = new App();
                                                 <input name="file" type="file" class="form-control mb-1" id="customFile" accept=".jpg,.png,.jpeg,.bmp" maxlength="255" required/>
                                             </div>
                                             <div class="form-group">
-                                                <input class="form-control mb-1" name="name" type="text" placeholder="Názov" maxlength="20" pattern="[A-Za-z0-9 ]+" required>
+                                                <input class="form-control mb-1" id="name" name="name" type="text" placeholder="Názov" maxlength="20" pattern="[A-Za-z0-9 _-]+" required
+                                                       oninvalid="setCustomValidity('Zadajte platný názov. Názov môže obsahovať len písmená, čísla a &quot; -_&quot; .')"
+                                                       oninput="setCustomValidity('')" >
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-group mb-1">
@@ -160,7 +162,7 @@ $app = new App();
                                             <div class="form-group">
                                                 <input class="form-control mb-1" name="height" type="number" placeholder="Výška" min="0" step="0.01" max="999" required>
                                             </div>
-                                            <input type="submit" class="btn btn-primary" name="rocket" value="Odoslať">
+                                            <input type="submit" class="btn btn-primary" id="submit" name="rocket" value="Odoslať">
                                         </form>
                                     </div>
                                 </div>
@@ -186,7 +188,10 @@ $app = new App();
                                         <form method="post" enctype="multipart/form-data">
                                             <input type="hidden" id="rocket-edit-id" name="rocket-edit-id">
                                             <div class="form-group">
-                                                <input class="form-control mb-1" name="rocket-edit-name" type="text" placeholder="Názov" id="rocket-edit-name" maxlength="20" pattern="[A-Za-z0-9 ]+" required>
+                                                <input class="form-control mb-1" name="rocket-edit-name" type="text" placeholder="Názov" id="rocket-edit-name"
+                                                       maxlength="20" pattern="[A-Za-z0-9 _-]+" required
+                                                       oninvalid="setCustomValidity('Zadajte platný názov. Názov môže obsahovať len písmená, čísla a &quot; -_&quot; .')"
+                                                       oninput="setCustomValidity('')" >
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-group mb-1">
