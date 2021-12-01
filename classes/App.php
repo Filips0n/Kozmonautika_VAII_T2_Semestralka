@@ -12,6 +12,7 @@ class App
         $this->storage = new DBStorage();
         if (isset($_FILES['file'])) {
             if ($this->validateFormAdd()) {
+
                 $this->saveImage();
 
                 $manufacturer_id = $this->test_input($_POST["manufacturer_id"]);
@@ -65,6 +66,12 @@ class App
                 return false;
             }
         }
+
+        $img = $_FILES['file']['name'];
+        if (empty($_FILES['file']['name']) || strlen($img) > 100) {
+            return false;
+        }
+
         return true;
     }
 
@@ -139,11 +146,39 @@ class App
     private function saveImage()
     {
         if ($_FILES['file']['error'] == UPLOAD_ERR_OK) {
-            $this->imageName = date('Y-m-d-H-m-s_').$_FILES['file']['name'];
+            $this->imageName = $this->test_input($_FILES['file']['name']);
+            $this->imageName = date('Y-m-d-H-m-s_').$this->imageName;
             $path = "../assets/rockets/$this->imageName";
             move_uploaded_file($_FILES['file']['tmp_name'], $path);
         } else {
-            die('Image upload error');
+            switch ($_FILES['file']['error']) {
+                case UPLOAD_ERR_INI_SIZE:
+                    $message = "The uploaded file exceeds the upload_max_filesize directive in php.ini";
+                    break;
+                case UPLOAD_ERR_FORM_SIZE:
+                    $message = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form";
+                    break;
+                case UPLOAD_ERR_PARTIAL:
+                    $message = "The uploaded file was only partially uploaded";
+                    break;
+                case UPLOAD_ERR_NO_FILE:
+                    $message = "No file was uploaded";
+                    break;
+                case UPLOAD_ERR_NO_TMP_DIR:
+                    $message = "Missing a temporary folder";
+                    break;
+                case UPLOAD_ERR_CANT_WRITE:
+                    $message = "Failed to write file to disk";
+                    break;
+                case UPLOAD_ERR_EXTENSION:
+                    $message = "File upload stopped by extension";
+                    break;
+
+                default:
+                    $message = "Unknown upload error";
+                    break;
+            }
+            die($message);
         }
     }
 }

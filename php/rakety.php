@@ -124,7 +124,7 @@ $app = new App();
                                     <div class="input-group">
                                         <form method="post" enctype="multipart/form-data">
                                             <div class="custom-file">
-                                                <input name="file" type="file" class="form-control mb-1" id="customFile" accept=".jpg,.png,.jpeg,.bmp" maxlength="255" required/>
+                                                <input name="file" type="file" class="form-control mb-1" id="customFile" accept=".jpg,.png,.jpeg,.bmp" maxlength="100" required/>
                                             </div>
                                             <div class="form-group">
                                                 <input class="form-control mb-1" id="name" name="name" type="text" placeholder="Názov" maxlength="20" pattern="[A-Za-z0-9 _-]+" required
